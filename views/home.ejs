@@ -1,0 +1,130 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funbox</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+<div class="page" id="app">
+    <div class="page-feed">
+
+        <h1 class="page-title">Ты сегодня покормил кота?</h1>
+
+        <div class="feed-list">
+            <div class="feed-block">
+                <div
+                        v-for="item in items"
+                        :key="item.id"
+                        :ref=`item-${item.id}`
+                        :class="[
+                        'feed-item',
+                        { active : selectedItems.includes(item.id) },
+                        { 'not-available' : !item.available }
+                    ]"
+                        @click="checkItem(item)"
+                        @mouseleave="addHover(item.id)"
+                >
+                    <div class="feed-item-content">
+                        <div class="feed-item-info">
+                            <span class="feed-item-title">Сказочное заморское явство</span>
+                            <span class="feed-item-product"> <strong>Нямушка </strong> </span>
+                            <span class="feed-item-flavor"> {{item.flavor}} </span>
+                            <div class="feed-item-description" v-html="item.description"></div>
+
+                        </div>
+                        <div class="feed-item-holder">
+                            <img class="img" src="img/Photo@2x.png" alt="catundel">
+                        </div>
+                        <div class="feed-item-weight">
+                            {{item.weight}} <br> кг
+                        </div>
+                    </div>
+                    <div class="feed-item-ad">
+                        <template v-if="item.available">
+                            <p v-if="selectedItems.includes(item.id)">{{item.selectedAd}}</p>
+                            <p v-else>
+                                Чего сидишь? порадуй котэ
+                                <a href="#" class="link" @click.prevent="checkItem(item.id)">Купи</a>
+                            </p>
+                        </template>
+                        <template v-else>
+                            <p class="feed-not-available">Печалька, {{ item.flavor }} закончился.</p>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            items: [
+                {
+                    id: 0,
+                    flavor: "с фуа-гра",
+                    description: `<p>
+                                         <strong>10</strong> порций <br>
+                                        мышь в подарок
+                                    </p>`,
+                    weight: 0.5,
+                    selectedAd: "Печень утки разварная с артишоками.",
+                    available: true,
+                }, {
+                    id: 1,
+                    flavor: "с рыбой",
+                    description: `<p>
+                                     <strong>40</strong> порций <br>
+                                   <strong>2 </strong> мыши в подарок
+                                </p>`,
+                    weight: 2,
+                    selectedAd: "Головы щучьи с чесноком да свежайшая сёмгушка.",
+                    available: true,
+                }, {
+                    id: 2,
+                    flavor: "с курой",
+                    description: `<p>
+                                     <strong>100</strong> порций <strong>5</strong> мышей в подарок <br> заказчик доволен
+                                </p>`,
+                    weight: 5,
+                    selectedAd: "Филе из цыплят с трюфелями в бульоне.",
+                    available: false,
+                }
+            ],
+            selectedItems: [],
+            hover: null,
+
+        },
+        methods: {
+            checkItem(item) {
+                if (!item.available) return;
+                if (!this.selectedItems.includes(item.id)) {
+                    this.selectedItems.push(item.id)
+                } else {
+                    this.selectedItems = this.selectedItems.filter(function (value) {
+                        return value !== item.id;
+                    });
+                }
+            },
+            addHover(id) {
+                let itemId = this.$refs[`item-${id}`][0]
+
+                if (!itemId.classList.contains("is-hover") && this.selectedItems.includes(id)) {
+                    itemId.classList.add("is-hover")
+
+                }
+            }
+        },
+    })
+</script>
+</body>
+
+</html>
