@@ -10,7 +10,7 @@ app.use(upload.array());
 app.use(express.static("public"));
 
 app.get("/", function (req, res) {
-    res.send("home");
+    res.render("home");
 });
 
 app.listen(port, function () {
