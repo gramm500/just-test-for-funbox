@@ -201,7 +201,9 @@ img {
     width: 100%;
     max-width: 320px;
     min-width: 320px;
-    transition: opacity .3s;
+    -webkit-transition: opacity .3s cubic-bezier(.25, .46, .45, .94);
+    -o-transition: opacity .3s cubic-bezier(.25, .46, .45, .94);
+    transition: opacity .3s cubic-bezier(.25, .46, .45, .94);
     margin: 0 auto;
     margin-bottom: 40px;
 
@@ -287,7 +289,9 @@ img {
     border-radius: 50%;
     font-size: 42px;
     color: #fff;
-    transition: background-color .3s;
+    -webkit-transition: background-color .3s cubic-bezier(.25, .46, .45, .94);
+    -o-transition: .3s background-color cubic-bezier(.25, .46, .45, .94);
+    transition: background-color .3s cubic-bezier(.25, .46, .45, .94);
 }
 
 
@@ -350,5 +354,5 @@ img {
     background-color: #f2f2f2;
     position: absolute;
     z-index: 5;
-    opacity: 50%;
+    opacity: 0.5;
 }
